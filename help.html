@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Lunar Regolith Plant Growth Simulation — Scientific Background</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" href="data:,">
+  <style>
+    :root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --link:#60a5fa; }
+    @media (prefers-color-scheme: light) {
+      :root { --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#475569; --link:#2563eb; }
+      .figure, code, pre { background:#f1f5f9; border-color:#e2e8f0; }
+      header { color:#0f172a; }
+    }
+    html, body { background:var(--bg); color:var(--text); font-family:system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; margin:0; line-height:1.6; }
+    header { background: linear-gradient(90deg, #0ea5e9 0%, #9333ea 100%); color:#fff; padding:24px 20px; }
+    header h1 { margin:0 0 6px 0; font-size:1.6rem; }
+    main { padding:24px; max-width:1200px; margin:0 auto; }
+    section { background:var(--panel); border:1px solid #1f2937; border-radius:12px; padding:20px; margin-bottom:20px; }
+    h2 { margin-top:0; }
+    .two-col { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px; }
+    .caption { color:var(--muted); font-size:0.9rem; }
+    .table { width:100%; border-collapse:collapse; font-size:0.95rem; }
+    .table th,.table td { border:1px solid #293242; padding:8px 10px; vertical-align:top; }
+    .table th { background:#0b1220; text-align:left; color:#c7d2fe; }
+    code, pre { background:#0b1220; border:1px solid #1f2937; padding:12px; border-radius:8px; display:block; overflow-x:auto; white-space:pre-wrap; }
+    a { color:var(--link); }
+    .figure { background:#0b1220; border:1px dashed #223047; border-radius:8px; padding:12px; }
+    .svg-wrap { width:100%; overflow:hidden; }
+    .badge { display:inline-block; font-size:0.75rem; background:#0b1220; border:1px solid #1f2937; padding:3px 8px; border-radius:999px; color:#c7d2fe; margin-left:8px; }
+    .ref { font-size:0.95rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Lunar Regolith Plant Growth Simulation: Scientific and Mathematical Background</h1>
+  <p>Waste-to-nutrient conversion, Fe-catalyzed nitrile cracking, and resource-limited logistic growth</p>
+</header>
+<main>
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>
+      Nitrile-rich Waste (e.g., Gloves) provides a nitrogen source. Iron (Fe) in Lunar Regolith acts as a catalyst for nitrile cracking to nitrogen (N). Plant biomass grows with limitations from N, H2O, and O2, and is bounded by an environmental carrying capacity K.
+    </p>
+    <div class="two-col">
+      <div class="figure">
+        <div class="svg-wrap" aria-label="System flow diagram">
+          <svg viewBox="0 0 800 220" role="img">
+            <defs>
+              <linearGradient id="grad1" x1="0" x2="1">
+                <stop offset="0%" stop-color="#22d3ee"/>
+                <stop offset="100%" stop-color="#a78bfa"/>
+              </linearGradient>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <polygon points="0 0, 8 4, 0 8" fill="url(#grad1)"/>
+              </marker>
+            </defs>
+            <rect x="0" y="0" width="800" height="220" fill="#0b1220" rx="8"></rect>
+            <g font-family="Segoe UI, sans-serif" font-size="14" fill="#e5e7eb" stroke="#223047">
+              <rect x="20" y="30" width="170" height="60" fill="#0f172a" rx="8" stroke-width="1.5"/>
+              <text x="35" y="58">Waste: Gloves</text>
+              <text x="35" y="76" fill="#9ca3af">Material: Nitrile</text>
+              <rect x="240" y="30" width="200" height="60" fill="#0f172a" rx="8" stroke-width="1.5"/>
+              <text x="255" y="56">Nitrile → Nitrogen (N)</text>
+              <text x="255" y="76" fill="#9ca3af">Catalyzed by Fe (Regolith)</text>
+              <rect x="500" y="30" width="270" height="60" fill="#0f172a" rx="8" stroke-width="1.5"/>
+              <text x="515" y="56">Plant Biomass Growth</text>
+              <text x="515" y="76" fill="#9ca3af">Limited by N, H2O, O2 and K</text>
+              <rect x="20" y="130" width="210" height="60" fill="#0f172a" rx="8" stroke-width="1.5"/>
+              <text x="35" y="156">Lunar Resource: Regolith</text>
+              <text x="35" y="176" fill="#9ca3af">Component: Fe (%)</text>
+              <rect x="260" y="130" width="210" height="60" fill="#0f172a" rx="8" stroke-width="1.5"/>
+              <text x="275" y="156">Water (H2O)</text>
+              <text x="275" y="176" fill="#9ca3af">Available (g)</text>
+              <rect x="520" y="130" width="210" height="60" fill="#0f172a" rx="8" stroke-width="1.5"/>
+              <text x="535" y="156">Oxygen (O2)</text>
+              <text x="535" y="176" fill="#9ca3af">Concentration (ppm)</text>
+            </g>
+            <g stroke="url(#grad1)" stroke-width="3" fill="none">
+              <path d="M190,60 L235,60" marker-end="url(#arrow)"/>
+              <path d="M440,60 L500,60" marker-end="url(#arrow)"/>
+              <path d="M125,130 L125,100" marker-end="url(#arrow)"/>
+              <path d="M360,130 L360,100" marker-end="url(#arrow)"/>
+              <path d="M630,130 L630,100" marker-end="url(#arrow)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="caption">Figure 1. Flow: Nitrile from Gloves is cracked to N via Fe; growth limited by N/H2O/O2 and bounded by K.</div>
+      </div>
+      <div>
+        <ul>
+          <li>Fe in regolith acts as a catalyst for nitrile-to-N conversion.</li>
+          <li>Biomass B(t) grows subject to resource limits (N, H2O, O2) and a logistic bound K.</li>
+          <li>We use saturation functions and Liebig’s minimum (min) to combine limits.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="math">
+    <h2>Mathematical Model <span class="badge">Simplified</span></h2>
+    <h3>1) Nitrile-to-Nitrogen Conversion (Fe-catalyzed)</h3>
+    <pre>
+N_production_rate = k_base · M_nitrile
+                   + k_fe · Fe% · η_catalyst · M_nitrile
+M_nitrile(t+Δt) = max(0, M_nitrile(t) − N_production_rate · Δt)
+N_ppm(t+Δt)     = N_ppm(t) + α · N_production_rate · Δt
+    </pre>
+
+    <h3>2) Resource Limitations (N, H2O, O2)</h3>
+    <pre>
+f_N  = N / (N_sat + N)
+f_W  = W / (W_sat + W)
+f_O2 = O2 / (O2_sat + O2)
+resource_limit = min(f_N, f_W, f_O2)
+    </pre>
+
+    <div class="two-col">
+      <div class="figure">
+        <div class="svg-wrap" aria-label="Saturation curves">
+          <svg viewBox="0 0 520 260" role="img">
+            <rect x="0" y="0" width="520" height="260" fill="#0b1220" rx="8"></rect>
+            <g stroke="#223047" stroke-width="1">
+              <line x1="40" y1="220" x2="500" y2="220"></line>
+              <line x1="40" y1="220" x2="40" y2="30"></line>
+            </g>
+            <text x="10" y="25" fill="#9ca3af" font-size="12">f</text>
+            <text x="465" y="240" fill="#9ca3af" font-size="12">Resource</text>
+            <path d="M40,220 C140,120 260,80 500,60" stroke="#22d3ee" stroke-width="3" fill="none"/>
+            <path d="M40,220 C160,160 280,120 500,105" stroke="#a78bfa" stroke-width="3" fill="none"/>
+            <path d="M40,220 C200,190 320,160 500,150" stroke="#10b981" stroke-width="3" fill="none"/>
+            <text x="360" y="70" fill="#22d3ee" font-size="12">f_N</text>
+            <text x="360" y="115" fill="#a78bfa" font-size="12">f_W</text>
+            <text x="360" y="160" fill="#10b981" font-size="12">f_O2</text>
+          </svg>
+        </div>
+        <div class="caption">Figure 2. Saturation (Michaelis–Menten-like) limiting functions for N, H2O, and O2.</div>
+      </div>
+      <div>
+        <h3>3) Logistic Growth with Carrying Capacity</h3>
+        <pre>
+dB/dt = r_max · resource_limit · B · (1 − B/K)
+        </pre>
+        <p>
+          As B → K, (1 − B/K) → 0, so growth slows. K is an environmental property (space, light, substrate). In a derived-K variant, K is computed from resource budgets.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="parameters">
+    <h2>Parameters and Units</h2>
+    <table class="table" aria-label="Model parameters">
+      <thead>
+        <tr><th>Symbol</th><th>Name</th><th>Role</th><th>Unit</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>M<sub>nitrile</sub></td><td>Nitrile Mass</td><td>Reactant for nitrogen production</td><td>g</td><td>Auto = 100% of Gloves (Waste) Mass</td></tr>
+        <tr><td>Fe%</td><td>Iron Percentage (Regolith)</td><td>Catalytic accelerator for nitrile-to-N conversion</td><td>%</td><td>LHS‑1 simulant constant (frontend default)</td></tr>
+        <tr><td>η<sub>catalyst</sub></td><td>Catalyst Efficiency Factor</td><td>Scales Fe catalytic effect</td><td>—</td><td>1.0 = baseline</td></tr>
+        <tr><td>N</td><td>Nitrogen</td><td>Limits growth via f<sub>N</sub></td><td>ppm</td><td>Produced from nitrile; consumed implicitly</td></tr>
+        <tr><td>W</td><td>Water Available</td><td>Limits growth via f<sub>W</sub></td><td>g</td><td>Not depleted explicitly (simple model)</td></tr>
+        <tr><td>O<sub>2</sub></td><td>Oxygen Concentration</td><td>Limits growth via f<sub>O2</sub></td><td>ppm</td><td>Not depleted explicitly (simple model)</td></tr>
+        <tr><td>K</td><td>Carrying Capacity</td><td>Upper bound on sustainable biomass</td><td>g</td><td>Derived from resource budgets or set as a cap</td></tr>
+        <tr><td>r<sub>max</sub></td><td>Max Growth Rate</td><td>Biomass growth sensitivity</td><td>1/time</td><td>Scaled by resource limits; tuned for stability</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="refs">
+    <h2>References</h2>
+    <ol class="ref">
+      <li>Verhulst, P.-F. (1838). Logistic growth.</li>
+      <li>Pearl, R., & Reed, L. J. (1920). PNAS.</li>
+      <li>Odum, E. P. Fundamentals of Ecology.</li>
+      <li>Liebig, J. (1840). Chemistry in its application to agriculture and physiology.</li>
+      <li>Michaelis, L., & Menten, M. L. (1913). Biochem. Z.</li>
+      <li>UCF Planetary Simulant Database — LHS‑1 specification.</li>
+      <li>Wheeler, R.M. (2010). Gravitational and Space Research.</li>
+      <li>Monje, O., et al. (2003). SAE Technical Papers.</li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>

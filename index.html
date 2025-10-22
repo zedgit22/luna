@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LunaRecycle Digital Twin</title>
+    <link rel="icon" href="data:,">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">LunaRecycle Digital Twin</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">Simulation Parameters</div>
+                    <div class="card-body">
+                        <h6 class="text-muted">Waste</h6>
+                        <div class="mb-3">
+                            <label for="gloveMass" class="form-label">Gloves (Waste) Mass (g)</label>
+                            <input type="number" class="form-control" id="gloveMass" value="100" min="0" step="any">
+                        </div>
+                        <div class="mb-3">
+                            <label for="nitrileMass" class="form-label">Material: Nitrile Mass (g)</label>
+                            <input type="number" class="form-control" id="nitrileMass" value="100" readonly>
+                            <div class="form-text">Automatically set to 100% of Gloves mass.</div>
+                        </div>
+
+                        <h6 class="text-muted mt-3">Lunar Resource</h6>
+                        <div class="mb-3">
+                            <label for="regolithMass" class="form-label">Regolith Mass (g)</label>
+                            <input type="number" class="form-control" id="regolithMass" value="1000" min="0" step="any">
+                        </div>
+                        <div class="mb-3">
+                            <label for="regolithIron" class="form-label">Component: Iron (%)</label>
+                            <input type="number" class="form-control" id="regolithIron" value="5" min="0" max="100" step="any" readonly>
+                            <div class="form-text">Auto-calculated from LHS-1 simulant specification.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="waterAvailable" class="form-label">Water Available (g)</label>
+                            <input type="number" class="form-control" id="waterAvailable" value="500" min="0" step="any">
+                        </div>
+                        <div class="mb-3">
+                            <label for="oxygenAvailable" class="form-label">Oxygen Concentration (ppm)</label>
+                            <input type="number" class="form-control" id="oxygenAvailable" value="20000" min="0" step="any">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="catalystEfficiency" class="form-label">Catalyst Efficiency Factor</label>
+                            <input type="number" class="form-control" id="catalystEfficiency" value="1" min="0" step="any">
+                            <div class="form-text">Multiplier on iron-catalyzed nitrile conversion (1 = baseline iron effect).</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="carryingCapacity" class="form-label">Max Plant Carrying Capacity (g)</label>
+                            <input type="number" class="form-control" id="carryingCapacity" value="100" min="0" step="any">
+                            <div class="form-text">Environmental cap in a logistic growth model.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="simulationDuration" class="form-label">Simulation Duration (hours)</label>
+                            <input type="number" class="form-control" id="simulationDuration" value="5" min="0" step="any">
+                        </div>
+                        <button id="runButton" class="btn btn-primary w-100">Run Simulation</button>
+                        <button id="helpButton" type="button" class="btn btn-outline-secondary w-100 mt-2" title="Open scientific background in a new tab">Help</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">Results</div>
+                    <div class="card-body">
+                        <div class="ratio ratio-16x9 mb-3">
+                          <canvas id="resultsChart"></canvas>
+                        </div>
+                        <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- App scripts -->
+    <script src="/static/app.js"></script>
+    <script src="/static/help-button.js"></script>
+</body>
+</html>
